@@ -2,14 +2,10 @@ name: Auto Generate iCloud Emails
 
 on:
   schedule:
-    # 限制说明：标准 Cron 无法完美表达“每90分钟”，因此这里使用两组cron搭配，
     # 完美实现每隔 1.5 小时运行一次 (即 0:00, 1:30, 3:00, 4:30...)
     - cron: '0 0,3,6,9,12,15,18,21 * * *'
     - cron: '30 1,4,7,10,13,16,19,22 * * *'
-  workflow_dispatch: # 添加手动触发按钮，方便你在 Actions 页面随时手动运行测试
-
-permissions:
-  contents: write # 允许 Action 提交代码回仓库
+  workflow_dispatch: # 添加手动触发按钮
 
 jobs:
   generate:
@@ -37,12 +33,3 @@ jobs:
 
       - name: Run Auto Generator
         run: python main.py
-
-      - name: Commit and Push emails.txt
-        run: |
-          # 将新生成的邮箱文件提交到仓库，方便你下载查看
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add emails.txt
-          # 检查如果有内容变更才执行 commit
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-generated emails [skip ci]" && git push)
