@@ -10,7 +10,7 @@ from rich.table import Table
 
 from icloud import HideMyEmail
 
-MAX_CONCURRENT_TASKS = 10
+MAX_CONCURRENT_TASKS = 2
 
 class RichHideMyEmail(HideMyEmail):
     def __init__(self, cookie_string: str):
